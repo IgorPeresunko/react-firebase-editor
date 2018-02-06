@@ -7,15 +7,28 @@ class Editor extends Component {
 	constructor(props) {
 		super(props)
 
+		this.colors = [
+			'rgb(249, 152, 153)',
+			'rgb(44, 154, 183)',
+			'rgb(144,238,144)',
+			'rgb(192, 57, 43)',
+			'rgb(138, 220, 179)',
+			'rgb(22, 82, 142)',
+			'rgb(114, 96, 109)'
+		]
+
 		this.state = {
 			text: 'Start here...',
 			title: 'Title',
 			contentChanged: false,
-			loading: true
+			loading: true,
+			words: 0,
+			color: localStorage.getItem('color') || this.colors[0]
 		}
 
 		this.funcs = {
-			onTextChange: this.onTextChange
+			onTextChange: this.onTextChange,
+			changeColor: this.changeColor,
 		}
 	}
 
@@ -32,8 +45,12 @@ class Editor extends Component {
 
 	onTextChange = field => e => {
 		const value = e.target.innerText
-
-		this.setState({ [field]: value, contentChanged: true })
+		
+		this.setState({
+			[field]: value,
+			contentChanged: true,
+			words: this.countWords(field === 'text' ? value : this.state.text)
+		})
 	}
 
 	parseIntoHtml = text => {
@@ -43,9 +60,18 @@ class Editor extends Component {
 				row.length > 0 ? `<p>${row}</p>` : row)
 			.join('')
 
-		console.log(html)
-
 		return html
+	}
+
+	countWords = text => {
+		return text.split(' ').length
+	}
+
+	changeColor = () => {
+		const index = this.colors.indexOf(this.state.color)
+		const indexOfNextColor = index >= this.colors.length - 1 ? 0 : index + 1
+		this.setState({ color: this.colors[indexOfNextColor] })
+		localStorage.setItem('color', this.colors[indexOfNextColor])
 	}
 
 	componentDidMount() {
@@ -57,7 +83,8 @@ class Editor extends Component {
 			this.setState({
 				...result,
 				text: result ? this.parseIntoHtml(result.text) : 'Start here...',
-				loading: false
+				loading: false,
+				words: result ? this.countWords(result.text) : 2
 			})
 		})
 

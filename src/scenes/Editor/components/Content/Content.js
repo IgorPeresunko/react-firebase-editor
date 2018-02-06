@@ -24,7 +24,7 @@ const Title = styled.h1`
 	outline: none;
 	padding-top: 100px;
 	margin: 0;
-	margin-bottom: 20px;
+	margin-bottom: 0px;
 `
 
 const Paragraph = styled.p`
@@ -36,7 +36,15 @@ const Paragraph = styled.p`
 	outline: none;
 	min-height: 300px;
 	margin: 0;
-	padding: 10px 0 80px
+	padding: 10px 0 80px;
+	& > p::selection {
+  		color: #fff;
+		background: #fff;
+	}
+	& > p::-moz-selection {
+		color: #fff;
+		background: #fff;
+	}
 `
 
 class Content extends Component {
