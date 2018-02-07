@@ -22,25 +22,18 @@ class Editor extends Component {
 			title: 'Title',
 			contentChanged: false,
 			loading: true,
-			words: 0,
+			words: 2,
+			fullscreen: false,
 			color: localStorage.getItem('color') || this.colors[0]
 		}
 
 		this.funcs = {
 			onTextChange: this.onTextChange,
 			changeColor: this.changeColor,
+			changeFullscreenState: this.changeFullscreenState,
+			loadPage: this.loadPage,
+			newPage: this.newPage
 		}
-	}
-
-	saveText = () => {
-		const { title, text, contentChanged } = this.state
-
-		if (!contentChanged) return
-
-		const blogRef = firebase.database().ref().child('blog')
-		const id = window.location.search.slice(1)
-	
-		blogRef.child(id).set({ title, text }).then(() => this.setState({ contentChanged: false }))
 	}
 
 	onTextChange = field => e => {
@@ -74,19 +67,76 @@ class Editor extends Component {
 		localStorage.setItem('color', this.colors[indexOfNextColor])
 	}
 
-	componentDidMount() {
+	changeFullscreenState = () => {
+		if (this.state.fullscreen) {
+			if (document.exitFullscreen)
+				document.exitFullscreen()
+			else if (document.mozCancelFullScreen)
+				document.mozCancelFullScreen()
+			else if (document.webkitExitFullscreen)
+				document.webkitExitFullscreen()
+			else if (document.msExitFullscreen)
+				document.msExitFullscreen()
+		} else {
+			if (document.body.requestFullscreen)
+				document.body.requestFullscreen()
+			else if (document.body.mozRequestFullScreen)
+				document.body.mozRequestFullScreen()
+			else if (document.body.webkitRequestFullscreen)
+				document.body.webkitRequestFullscreen()
+			else if (document.body.msRequestFullscreen)
+				document.body.msRequestFullscreen()
+		}
+		
+		this.setState({ fullscreen: !this.state.fullscreen })
+	}
+
+	newPage = callback => {
 		const blogRef = firebase.database().ref().child('blog')
-		const id = window.location.search.slice(1)
-	
+		const newPage = { title: 'Title', text: 'Start here...', date: Date.now() }
+		blogRef
+			.push(newPage)
+			.then(res => this.loadPage(res.key))
+			.then(callback)
+	}
+
+	loadPage = id => {
+		this.setState({ loading: true })
+
+		const blogRef = firebase.database().ref().child('blog')
+
 		blogRef.child(id).once('value', snap => {
 			const result = snap.val()
 			this.setState({
 				...result,
-				text: result ? this.parseIntoHtml(result.text) : 'Start here...',
+				text: this.parseIntoHtml(result.text),
 				loading: false,
-				words: result ? this.countWords(result.text) : 2
+				words: this.countWords(result.text)
 			})
 		})
+
+		localStorage.setItem('pageId', id)
+	}
+
+	saveText = () => {
+		const { title, text, contentChanged } = this.state
+
+		if (!contentChanged) return
+
+		const blogRef = firebase.database().ref().child('blog')
+		const id = localStorage.getItem('pageId')
+	
+		blogRef.child(id).set({ title, text }).then(() => this.setState({ contentChanged: false }))
+	}
+
+	componentDidMount() {
+		this.setState({ loading: false })
+	
+		const pageId = localStorage.getItem('pageId')
+
+		if (pageId) {
+			this.loadPage(pageId)
+		}		
 
 		this.interval = setInterval(this.saveText, 5000)
 	}

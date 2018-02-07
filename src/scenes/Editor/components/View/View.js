@@ -2,8 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import Content from '../Content'
-import Info from '../Info'
-import SidePanel from '../SidePanel'
+import Menu from '../Menu'
 
 const Wrapper = styled.div`
 	min-height: 100vh;
@@ -20,11 +19,12 @@ const Wrapper = styled.div`
 	}
 `
 
-const View = ({ data: { text, title, loading, words, color }, funcs }) => (
-	<Wrapper color={color}>
-		{ loading ? 'loading' : <Content text={text} title={title} funcs={funcs} />	}
-		<Info words={words} />
-		<SidePanel funcs={funcs} />
+const View = ({ data: { text, title, loading, words, color, fullscreen }, funcs }) => (
+	<Wrapper color={color}>{ 
+		loading
+			? 'loading'
+			: <Content text={text} title={title} funcs={funcs} />	}
+		<Menu funcs={funcs} fullscreen={fullscreen} words={words} />
 	</Wrapper>
 )
 

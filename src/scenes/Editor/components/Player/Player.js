@@ -7,23 +7,24 @@ class Player extends Component {
 		super(props)
 
 		this.sounds = [
-			'https://firebasestorage.googleapis.com/v0/b/blog-8c653.appspot.com/o/01%20-%20Petricor.mp3?alt=media&token=117d036a-bfb0-4630-8dfc-f88a710fe47a',
-			'https://firebasestorage.googleapis.com/v0/b/blog-8c653.appspot.com/o/02%20-%20Night.mp3?alt=media&token=9a558412-2fb8-4202-8d2f-423ebeeee00b',
-			'https://firebasestorage.googleapis.com/v0/b/blog-8c653.appspot.com/o/03%20-%20Drop.mp3?alt=media&token=901b7e93-1a68-47ad-8565-21783f31f151',
-			'https://firebasestorage.googleapis.com/v0/b/blog-8c653.appspot.com/o/04%20-%20Four%20Dimensions.mp3?alt=media&token=0c87d416-934c-4ca2-af32-2ae982b418b9',
-			'https://firebasestorage.googleapis.com/v0/b/blog-8c653.appspot.com/o/05%20-%20Elements.mp3?alt=media&token=c6b0609c-2f26-4513-b3c4-31256b4bbfc5',
-			'https://firebasestorage.googleapis.com/v0/b/blog-8c653.appspot.com/o/06%20-%20Whirling%20Winds.mp3?alt=media&token=b94f0a71-ad96-41d7-8970-a92258e57cc8',
-			'https://firebasestorage.googleapis.com/v0/b/blog-8c653.appspot.com/o/07%20-%20Twice.mp3?alt=media&token=52d760d3-9109-4b0e-9dbc-55ae89e2a062',
-			'https://firebasestorage.googleapis.com/v0/b/blog-8c653.appspot.com/o/08%20-%20ABC.mp3?alt=media&token=0044dc1c-77a2-44f8-9954-b6d76713c1c1',
-			'https://firebasestorage.googleapis.com/v0/b/blog-8c653.appspot.com/o/09%20-%20Numbers.mp3?alt=media&token=45949ed8-d7ee-4d1a-bb2f-99e0b572ab23',
-			'https://firebasestorage.googleapis.com/v0/b/blog-8c653.appspot.com/o/10%20-%20Mountain.mp3?alt=media&token=b9196ee2-d09c-4dd2-a2ac-8c95e0c25428',
-			'https://firebasestorage.googleapis.com/v0/b/blog-8c653.appspot.com/o/11%20-%20Logos.mp3?alt=media&token=9d8802ae-a32b-43f5-9950-3b719a873b91',
-			'https://firebasestorage.googleapis.com/v0/b/blog-8c653.appspot.com/o/12%20-%20Song%20For%20Gavin.mp3?alt=media&token=e790ebc2-51b3-43f3-94f3-fb8580ab04b8',
+			'https://firebasestorage.googleapis.com/v0/b/togetshitdone-2c80d.appspot.com/o/01%20-%20Petricor.mp3?alt=media&token=3d8f4dde-7bb0-487f-8af0-0de2520278fd',
+			'https://firebasestorage.googleapis.com/v0/b/togetshitdone-2c80d.appspot.com/o/02%20-%20Night.mp3?alt=media&token=135c5937-077c-4357-9639-4bbb49a6a90c',
+			'https://firebasestorage.googleapis.com/v0/b/togetshitdone-2c80d.appspot.com/o/03%20-%20Drop.mp3?alt=media&token=fb12eef7-eb63-43bd-a9a8-b8ed245e4ca7',
+			'https://firebasestorage.googleapis.com/v0/b/togetshitdone-2c80d.appspot.com/o/04%20-%20Four%20Dimensions.mp3?alt=media&token=7f84fa44-3309-490a-8968-22ec3e72aaa6',
+			'https://firebasestorage.googleapis.com/v0/b/togetshitdone-2c80d.appspot.com/o/05%20-%20Elements.mp3?alt=media&token=a98d4219-c3a8-4378-9c54-7f9bfeeceaf1',
+			'https://firebasestorage.googleapis.com/v0/b/togetshitdone-2c80d.appspot.com/o/06%20-%20Whirling%20Winds.mp3?alt=media&token=b37924c5-ca10-40a3-99a8-a97cceaa3950',
+			'https://firebasestorage.googleapis.com/v0/b/togetshitdone-2c80d.appspot.com/o/07%20-%20Twice.mp3?alt=media&token=d97e2b6a-36b8-49bc-ae58-ea893b23a28e',
+			'https://firebasestorage.googleapis.com/v0/b/togetshitdone-2c80d.appspot.com/o/08%20-%20ABC.mp3?alt=media&token=fbaf10fb-4d44-4310-b7c2-d5cd760bf940',
+			'https://firebasestorage.googleapis.com/v0/b/togetshitdone-2c80d.appspot.com/o/09%20-%20Numbers.mp3?alt=media&token=22b2f7ea-33c9-47ad-b449-f6f17c2da362',
+			'https://firebasestorage.googleapis.com/v0/b/togetshitdone-2c80d.appspot.com/o/10%20-%20Mountain.mp3?alt=media&token=cb4b3a17-78de-4e86-ad15-e1a4fbe53b74',
+			'https://firebasestorage.googleapis.com/v0/b/togetshitdone-2c80d.appspot.com/o/11%20-%20Logos.mp3?alt=media&token=26cf04ca-1f72-494b-82b8-9a207beca150',
+			'https://firebasestorage.googleapis.com/v0/b/togetshitdone-2c80d.appspot.com/o/12%20-%20Song%20For%20Gavin.mp3?alt=media&token=ca971e57-8328-44e6-bc05-50d0ff1d132d'
 		]
 
 		const soundIndex = localStorage.getItem('sound') || 0
+		console.log( localStorage.getItem('volume') || 80)
 		this.state = {
-			volume: 80,
+			volume: localStorage.getItem('volume') || 80,
 			soundIndex: Number(soundIndex),
 			sound: this.sounds[Number(soundIndex)],
 			isPlaying: false
@@ -50,6 +51,7 @@ class Player extends Component {
 
 	setVolume = vol => {
 		this.refs.audio.volume = vol
+		localStorage.setItem('volume', vol * 100)
 	}
 
 	onNext = () => {
@@ -76,6 +78,7 @@ class Player extends Component {
 	}
 
 	componentDidMount = () => {
+		this.setVolume(this.state.volume/100)
 		this.refs.audio.src = this.state.sound
 		this.refs.audio.addEventListener("ended", this.onNext)
 	}

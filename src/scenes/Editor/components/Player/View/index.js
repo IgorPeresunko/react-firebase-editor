@@ -4,7 +4,7 @@ export const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 20px auto 40px
+	margin: 30px auto 0;
 `
 
 export const Icon = styled.span`

@@ -3,13 +3,14 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Player from '../Player'
+import Timer from '../Timer'
 
 const propTypes = {
 	funcs: PropTypes.object.isRequired
 }
 
 const Wrapper = styled.div`
-	position: absolute;
+	position: fixed;
 	top: 80px;
 	left: 0;
 	bottom: 0;
@@ -18,8 +19,8 @@ const Wrapper = styled.div`
 	align-items: flex-start;
 	justify-content: flex-start;
 	padding: 20px;
-	width: 150px;
-	opacity: 1;
+	width: 160px;
+	opacity: 0;
 	transition: .2s;
 	&:hover {
 		opacity: 1;
@@ -39,7 +40,7 @@ const Title = styled.h1`
 
 const Button = styled.span`
 	padding: 5px 24px;
-	margin: 0 auto;
+	margin: 3px auto;
 	border-radius: 20px;
 	background-color: rgba(250, 250, 250, .15);
 	color: #fff;
@@ -47,12 +48,15 @@ const Button = styled.span`
 `
 
 const SidePanel = ({
-	funcs
+	funcs,
+	full
 }) => (
 	<Wrapper>
 		<Title>Perfect Focus</Title>
 		<Player />
+		<Timer />
 		<Button onClick={funcs.changeColor}>Change color</Button>
+		<Button onClick={funcs.changeFullscreenState}>{full ? 'Off Fullscreen' : 'Fullscreen'}</Button>
 	</Wrapper>
 )
 

@@ -27,7 +27,7 @@ const Title = styled.h1`
 	margin-bottom: 0px;
 `
 
-const Paragraph = styled.p`
+const Paragraph = styled.div`
 	color: #fff;
 	width: 100%;
 	font-size: 20px;
